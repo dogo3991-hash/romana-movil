@@ -24,9 +24,14 @@ export function CompanySelector(): React.JSX.Element {
 
   return (
     <View style={styles.pickerWrap}>
-      <Picker selectedValue={companyId ?? undefined} onValueChange={(v) => setCompanyId(v)}>
+      <Picker
+        selectedValue={companyId ?? undefined}
+        onValueChange={(v) => setCompanyId(v)}
+        style={styles.picker}
+        dropdownIconColor="#111"
+      >
         {companies.map((c) => (
-          <Picker.Item key={c.id} label={c.name} value={c.id} />
+          <Picker.Item key={c.id} label={c.name} value={c.id} color="#111" />
         ))}
       </Picker>
     </View>
@@ -37,5 +42,6 @@ const styles = StyleSheet.create({
   loading: { marginVertical: 8 },
   muted: { color: '#888', fontSize: 13 },
   fixedValue: { fontSize: 15, color: '#111', paddingVertical: 8 },
-  pickerWrap: { borderWidth: 1, borderColor: '#d8dadf', borderRadius: 8, overflow: 'hidden' }
+  pickerWrap: { borderWidth: 1, borderColor: '#d8dadf', borderRadius: 8, overflow: 'hidden' },
+  picker: { color: '#111' }
 })

@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
   section: { gap: 8 },
   sectionTitle: { fontSize: 14, fontWeight: '700', color: '#111', marginTop: 4 },
   card: { backgroundColor: '#fff', borderRadius: 10, padding: 12, gap: 8 },
-  cardPending: { borderWidth: 1, borderColor: '#f0c36d' },
+  cardPending: { borderWidth: 1, borderColor: '#e0a458', backgroundColor: '#f6e2bd' },
   cardTitle: { fontSize: 15, fontWeight: '700', color: '#111' },
   cardSub: { fontSize: 12, color: '#666' },
   cardWeights: { fontSize: 13, fontWeight: '600', color: '#111' },

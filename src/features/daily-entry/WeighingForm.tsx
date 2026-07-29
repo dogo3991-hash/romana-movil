@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import DateTimePicker from '@react-native-community/datetimepicker'
-import { Picker } from '@react-native-picker/picker'
 import {
   ActivityIndicator,
   Modal,
@@ -15,6 +14,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import { AppPicker } from '../../components/AppPicker'
 import { useCompanyContext } from '../companies/CompanyContext'
 import { useTransportistas, useConductorsByTransportista } from '../conductors/useConductorsAdmin'
 import { useTrucksByTransportista } from '../trucks/useTrucksAdmin'
@@ -198,14 +198,11 @@ export function WeighingForm({
             control={control}
             name="transportista_id"
             render={({ field }) => (
-              <View style={styles.pickerWrap}>
-                <Picker selectedValue={field.value} onValueChange={field.onChange}>
-                  <Picker.Item label="Seleccionar" value="" />
-                  {transportistas?.map((t) => (
-                    <Picker.Item key={t.id} label={t.nombre} value={t.id} />
-                  ))}
-                </Picker>
-              </View>
+              <AppPicker
+                selectedValue={field.value}
+                onValueChange={field.onChange}
+                items={transportistas?.map((t) => ({ label: t.nombre, value: t.id })) ?? []}
+              />
             )}
           />
         </Field>
@@ -225,17 +222,13 @@ export function WeighingForm({
             control={control}
             name="conductor"
             render={({ field }) => (
-              <View style={styles.pickerWrap}>
-                <Picker selectedValue={field.value} onValueChange={field.onChange} enabled={!!transportistaId}>
-                  <Picker.Item
-                    label={!transportistaId ? 'Elige un transportista primero' : 'Seleccionar'}
-                    value=""
-                  />
-                  {conductorOptions?.map((c) => (
-                    <Picker.Item key={c.nombre} label={c.nombre} value={c.nombre} />
-                  ))}
-                </Picker>
-              </View>
+              <AppPicker
+                selectedValue={field.value}
+                onValueChange={field.onChange}
+                enabled={!!transportistaId}
+                placeholder={!transportistaId ? 'Elige un transportista primero' : 'Seleccionar'}
+                items={conductorOptions?.map((c) => ({ label: c.nombre, value: c.nombre })) ?? []}
+              />
             )}
           />
         </Field>
@@ -255,14 +248,11 @@ export function WeighingForm({
             control={control}
             name="producto"
             render={({ field }) => (
-              <View style={styles.pickerWrap}>
-                <Picker selectedValue={field.value} onValueChange={field.onChange}>
-                  <Picker.Item label="Seleccionar" value="" />
-                  {PRODUCTOS.map((p) => (
-                    <Picker.Item key={p} label={p} value={p} />
-                  ))}
-                </Picker>
-              </View>
+              <AppPicker
+                selectedValue={field.value}
+                onValueChange={field.onChange}
+                items={PRODUCTOS.map((p) => ({ label: p, value: p }))}
+              />
             )}
           />
         </Field>
@@ -272,21 +262,13 @@ export function WeighingForm({
             control={control}
             name="patente"
             render={({ field }) => (
-              <View style={styles.pickerWrap}>
-                <Picker
-                  selectedValue={field.value}
-                  onValueChange={(v) => handlePatenteChange(v, field.onChange)}
-                  enabled={!!transportistaId}
-                >
-                  <Picker.Item
-                    label={!transportistaId ? 'Elige un transportista primero' : 'Seleccionar'}
-                    value=""
-                  />
-                  {patenteOptions?.map((t) => (
-                    <Picker.Item key={t.patente} label={t.patente} value={t.patente} />
-                  ))}
-                </Picker>
-              </View>
+              <AppPicker
+                selectedValue={field.value}
+                onValueChange={(v) => handlePatenteChange(v, field.onChange)}
+                enabled={!!transportistaId}
+                placeholder={!transportistaId ? 'Elige un transportista primero' : 'Seleccionar'}
+                items={patenteOptions?.map((t) => ({ label: t.patente, value: t.patente })) ?? []}
+              />
             )}
           />
         </Field>
@@ -296,14 +278,11 @@ export function WeighingForm({
             control={control}
             name="traslado"
             render={({ field }) => (
-              <View style={styles.pickerWrap}>
-                <Picker selectedValue={field.value ?? ''} onValueChange={field.onChange}>
-                  <Picker.Item label="Seleccionar" value="" />
-                  {traslados?.map((t) => (
-                    <Picker.Item key={t.id} label={t.nombre} value={t.nombre} />
-                  ))}
-                </Picker>
-              </View>
+              <AppPicker
+                selectedValue={field.value ?? ''}
+                onValueChange={field.onChange}
+                items={traslados?.map((t) => ({ label: t.nombre, value: t.nombre })) ?? []}
+              />
             )}
           />
         </Field>
@@ -452,7 +431,6 @@ const styles = StyleSheet.create({
   },
   pesoInput: { fontSize: 18, fontWeight: '600', borderWidth: 2, borderColor: '#1f6feb' },
   inputDisabled: { backgroundColor: '#f0f1f3', color: '#888' },
-  pickerWrap: { borderWidth: 1, borderColor: '#d8dadf', borderRadius: 8, overflow: 'hidden' },
   hint: { fontSize: 12, color: '#888' },
   error: { color: '#c0392b', fontSize: 12 },
   actions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 10, marginTop: 8, marginBottom: 40 },

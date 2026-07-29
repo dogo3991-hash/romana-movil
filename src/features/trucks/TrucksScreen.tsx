@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Picker } from '@react-native-picker/picker'
 import {
   ActivityIndicator,
   Alert,
@@ -14,6 +13,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import { AppPicker } from '../../components/AppPicker'
 import { useAuth } from '../../auth/AuthProvider'
 import { useCompanyContext } from '../companies/CompanyContext'
 import { CompanySelector } from '../companies/CompanySelector'
@@ -154,14 +154,11 @@ function TrucksSection(): React.JSX.Element {
               control={control}
               name="transportista_id"
               render={({ field }) => (
-                <View style={styles.pickerWrap}>
-                  <Picker selectedValue={field.value} onValueChange={field.onChange}>
-                    <Picker.Item label="Seleccionar" value="" />
-                    {transportistas?.map((t) => (
-                      <Picker.Item key={t.id} label={t.nombre} value={t.id} />
-                    ))}
-                  </Picker>
-                </View>
+                <AppPicker
+                  selectedValue={field.value}
+                  onValueChange={field.onChange}
+                  items={transportistas?.map((t) => ({ label: t.nombre, value: t.id })) ?? []}
+                />
               )}
             />
           </FormField>
@@ -334,7 +331,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: 15
   },
-  pickerWrap: { borderWidth: 1, borderColor: '#d8dadf', borderRadius: 8, overflow: 'hidden' },
   formTitle: { fontSize: 18, fontWeight: '700', marginBottom: 8, color: '#111' },
   formActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 10, marginTop: 10 },
   button: { backgroundColor: '#1f6feb', borderRadius: 8, paddingVertical: 12, paddingHorizontal: 20 },
